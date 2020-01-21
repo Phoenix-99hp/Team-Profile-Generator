@@ -4,28 +4,6 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 
-// const confirmName = async (input) => {
-//     if (input !== 'y' || input !== 'n') {
-//         return 'Incorrect asnwer';
-//     }
-//     return true;
-// };
-
-// const confirmNumber = async (input) => {
-//     if (input) {
-
-//     }
-//     return true;
-// }
-
-
-// const ;
-
-// async function collectRes() {
-//     try {
-//         const initialPrompt = await
-// }
-
 function generateHTML(man, eng, int) {
     return `<!DOCTYPE html>
     <html lang="en">
@@ -73,36 +51,73 @@ inquirer
             type: "input",
             message: "Welcome to the software engineering team generator. A team consists of one manager and any number of engineers and interns. Enter a name for the manager:",
             name: "managerName",
-            // validate: confirmName()
+            validate: (input) => {
+                if (/[a-z\s\-]+/gi.test(input.trim()) === true) {
+                    return true;
+                }
+                return 'Please enter a valid name';
+            },
+            filter: (input) => input.trim()
         },
         {
-            type: "number",
-            message: "What is the manager's ID?",
+            type: "input",
+            message: "What is the Manager's ID?",
             name: "managerId",
-            // validate: confirmNumber()
+            validate: (input) => {
+                if (/^[0-9]+$/gi.test(input.trim()) === true) {
+                    return true;
+                }
+                return "Please enter a valid number";
+            },
+            filter: (input) => input.trim()
         },
         {
             type: "input",
-            message: "What is the manager's email address?",
+            message: "What is the Manager's email address?",
             name: "managerEmail",
-            // validate: confirmEmail()
+            validate: (input) => {
+                if (/.\S+/gi.test(input.trim()) === true) {
+                    return true;
+                }
+                return "Please enter a valid email";
+            },
+            filter: (input) => input.trim()
         },
         {
             type: "input",
-            message: "What is the manager's office number?",
+            message: "What is the Manager's office number?",
             name: "managerOffice",
-            // validate: confirmEmail()
+            validate: (input) => {
+                if (/^[0-9]+$/gi.test(input.trim()) === true) {
+                    return true;
+                }
+                return "Please enter a valid number";
+            },
+            filter: (input) => input.trim()
         },
         {
-            type: "number",
-            message: "How many engineers are a part of this team?",
+            type: "input",
+            message: "How many Engineers are a part of this team?",
             name: "engineers",
-            // validate: confirmNumber()
+            validate: (input) => {
+                if (/^[0-9]+$/gi.test(input.trim()) === true) {
+                    return true;
+                }
+                return "Please enter a valid number";
+            },
+            filter: (input) => input.trim()
         },
         {
-            type: "number",
-            message: "How many interns are a part of this team?",
+            type: "input",
+            message: "How many Interns are a part of this team?",
             name: "interns",
+            validate: (input) => {
+                if (/^[0-9]+$/gi.test(input.trim()) === true) {
+                    return true;
+                }
+                return "Please enter a valid number";
+            },
+            filter: (input) => input.trim()
         }
     ]).then(async function ({ managerName, managerId, managerEmail, managerOffice, engineers, interns }) {
         let numEngineers = engineers;
@@ -114,23 +129,52 @@ inquirer
             await inquirer.prompt([
                 {
                     type: "input",
-                    message: `What is engineer ${i + 1}'s name?`,
-                    name: "engineerName"
-                },
-                {
-                    type: "number",
-                    message: `What is engineer ${i + 1}'s ID?`,
-                    name: "engineerId"
-                },
-                {
-                    type: "input",
-                    message: `What is engineer ${i + 1}'s email?`,
-                    name: "engineerEmail"
+                    message: `What is Engineer ${i + 1}'s name?`,
+                    name: "engineerName",
+                    validate: (input) => {
+                        if (/[a-z\s\-]+/gi.test(input.trim()) === true) {
+                            return true;
+                        }
+                        return 'Please enter a valid name';
+                    },
+                    filter: (input) => input.trim()
                 },
                 {
                     type: "input",
-                    message: `What is engineer ${i + 1}'s github username?`,
-                    name: "engineerGithub"
+                    message: `What is Engineer ${i + 1}'s ID?`,
+                    name: "engineerId",
+                    validate: (input) => {
+                        if (/^[0-9]+$/gi.test(input.trim()) === true) {
+                            return true;
+                        }
+                        return "Please enter a valid number";
+                    },
+                    filter: (input) => input.trim()
+                },
+                {
+                    type: "input",
+                    message: `What is Engineer ${i + 1}'s email?`,
+                    name: "engineerEmail",
+                    validate: (input) => {
+                        if (/.\S+/gi.test(input.trim()) === true) {
+                            return true;
+                        }
+                        return "Please enter a valid email";
+                    },
+                    filter: (input) => input.trim()
+                },
+                {
+                    type: "input",
+                    message: `What is Engineer ${i + 1}'s GitHub username?`,
+                    name: "engineerGithub",
+                    validate: (input) => {
+                        if (/.\S+/gi.test(input.trim()) === true) {
+                            return true;
+                        }
+                        return "Please enter a valid username";
+                    },
+                    filter: (input) => input.trim()
+
                 }
             ]).then(function ({ engineerName, engineerId, engineerEmail, engineerGithub }) {
                 const engineer = new Engineer(engineerName, engineerId, engineerEmail, engineerGithub);
@@ -142,23 +186,52 @@ inquirer
             await inquirer.prompt([
                 {
                     type: "input",
-                    message: `What is intern ${j + 1}'s name?`,
-                    name: "internName"
-                },
-                {
-                    type: "number",
-                    message: `What is intern ${j + 1}'s ID?`,
-                    name: "internId"
-                },
-                {
-                    type: "input",
-                    message: `What is intern ${j + 1}'s email?`,
-                    name: "internEmail"
+                    message: `What is Intern ${j + 1}'s name?`,
+                    name: "internName",
+                    validate: (input) => {
+                        if (/[a-z\s\-]+/gi.test(input.trim()) === true) {
+                            return true;
+                        }
+                        return 'Please enter a valid name';
+                    },
+                    filter: (input) => input.trim()
                 },
                 {
                     type: "input",
-                    message: `What is intern ${j + 1}'s school affiliation?`,
-                    name: "internSchool"
+                    message: `What is Intern ${j + 1}'s ID?`,
+                    name: "internId",
+                    validate: (input) => {
+                        if (/^[0-9]+$/gi.test(input.trim()) === true) {
+                            return true;
+                        }
+                        return "Please enter a valid number";
+                    },
+                    filter: (input) => input.trim()
+                },
+                {
+                    type: "input",
+                    message: `What is Intern ${j + 1}'s email?`,
+                    name: "internEmail",
+                    validate: (input) => {
+                        if (/.\S+/gi.test(input.trim()) === true) {
+                            return true;
+                        }
+                        return "Please enter a valid email";
+                    },
+                    filter: (input) => input.trim()
+                },
+                {
+                    type: "input",
+                    message: `What is Intern ${j + 1}'s school affiliation?`,
+                    name: "internSchool",
+                    validate: (input) => {
+                        if (/[a-z\s\-]+/gi.test(input.trim()) === true) {
+                            return true;
+                        }
+                        return 'Please enter a valid name';
+                    },
+                    filter: (input) => input.trim()
+
                 }
             ]).then(function ({ internName, internId, internEmail, internSchool }) {
                 const intern = new Intern(internName, internId, internEmail, internSchool);
@@ -176,7 +249,7 @@ inquirer
                 <div class="card-body container">
                     <div class="attribute">ID: ${engineer.id}</div>
                     <div class="attribute">Email: ${engineer.email}</div>
-                    <div class="attribute">GitHub: ${engineer.github}</div>
+                    <div class="attribute">GitHub: <a href="https://github.com/${engineer.github}" target="_blank">${engineer.github}</a></div>
                 </div>
             </div>`
         }).join("");
@@ -204,34 +277,3 @@ inquirer
         })
         console.log(internArr, engineerArr, manager);
     })
-
-// const engineersDyn = engineerArr.forEach(function (engineer) {
-//     return `
-//     <div class="card col-sm-3">
-//         <div class="card-header">
-//             <h3>${engineer.engineerName}</h3>
-//             <h4><i></i>${engineer.role}</h4>
-//         </div>
-//         <div class="card-body container">
-//             <div class="attribute">ID: ${engineer.engineerId}</div>
-//             <div class="attribute">Email: ${engineer.engineerEmail}</div>
-//             <div class="attribute">GitHub: ${engineer.engineerGithub}</div>
-//         </div>
-//     </div>`
-// })
-
-// const internsDyn = internArr.forEach(function (intern) {
-//     return `
-//     <div class="card col-sm-3">
-//     <div class="card-header">
-//         <h3>${intern.internName}</h3>
-//         <h4><i></i>${intern.role}</h4>
-//     </div>
-//     <div class="card-body container">
-//         <div class="attribute">ID: ${intern.internId}</div>
-//         <div class="attribute">Email: ${intern.internEmail}</div>
-//         <div class="attribute">School: ${intern.internSchool}</div>
-//     </div>
-// </div>`
-// })
-
