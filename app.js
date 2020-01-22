@@ -228,7 +228,7 @@ inquirer
                         if (/[a-z\s\-]+/gi.test(input.trim()) === true) {
                             return true;
                         }
-                        return 'Please enter a valid name';
+                        return 'Please enter a valid school name';
                     },
                     filter: (input) => input.trim()
 
